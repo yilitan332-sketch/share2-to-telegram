@@ -1,30 +1,37 @@
-var shareToTelegramTabId = null;
-var curTabId = null;
+async function onClicked(currentTab) {
+  // Encode the URL to handle special characters
+  const shareUrl = `https://telegram.me/share/url?url=${encodeURIComponent(currentTab.url)}`;
 
-function shareToTelegram(data) {
-    let shareToTelegramTab = browser.tabs.create({
-        url: 'https://telegram.me/share/url?url=' + data
+  try {
+    // Create the Telegram sharing tab
+    const shareTab = await browser.tabs.create({
+      url: shareUrl,
+      active: true,
     });
-    shareToTelegramTab.then((tab) => {
-        shareToTelegramTabId = tab.id;
-    });
+
+    // This listener will wait for the sharing tab to load, then close it.
+    const onUpdateListener = (tabId, changeInfo) => {
+      if (tabId === shareTab.id && changeInfo.status === 'complete') {
+        // Use a short timeout to ensure the browser has time to launch the Telegram app
+        setTimeout(() => {
+          // Close the sharing tab and focus the original tab.
+          // Add error catching in case the user has already closed one of the tabs.
+          browser.tabs.remove(shareTab.id).catch(e => console.log(e));
+          browser.tabs.update(currentTab.id, { active: true }).catch(e => console.log(e));
+        }, 500);
+
+        // Clean up the listener to prevent memory leaks
+        browser.tabs.onUpdated.removeListener(onUpdateListener);
+      }
+    };
+
+    browser.tabs.onUpdated.addListener(onUpdateListener);
+
+  } catch (error) {
+    console.error(`Error sharing to Telegram: ${error}`);
+  }
 }
 
-function handleUpdated(tabId, changeInfo, tabInfo) {
-    if(shareToTelegramTabId == tabId && tabInfo.status == "complete") {
-        browser.tabs.remove(shareToTelegramTabId);
-        shareToTelegramTabId = null;
-        browser.tabs.update(
-            curTabId, {
-                active: true
-            }
-        );
-        curTabId = null;
-    }
-}
-
-browser.browserAction.onClicked.addListener((currentTab) => {
-    curTabId = currentTab.id;
-    shareToTelegram(currentTab.url);
-});
-browser.tabs.onUpdated.addListener(handleUpdated);
+// Register the listener for the browser action click.
+// For Manifest V3, this is `browser.action`.
+browser.action.onClicked.addListener(onClicked);

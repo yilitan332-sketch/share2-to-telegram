@@ -1,8 +1,7 @@
 {
-
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Share to Telegram",
-  "version": "1.2",
+  "version": "1.3",
 
   "description": "Shares link with Telegram user of your choice via Telegram app.",
   "author": "Albicant",
@@ -13,15 +12,18 @@
   },
 
   "permissions": [
-    "<all_urls>",
     "tabs"
+  ],
+
+  "host_permissions": [
+    "<all_urls>"
   ],
 
   "background": {
     "scripts": ["background.js"]
   },
 
-  "browser_action": {
+  "action": {
     "browser_style": true,
     "default_icon": {
       "32": "icons/Telegram-32.png",
