@@ -20,7 +20,7 @@
   ],
 
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["lib/browser-polyfill.js", "background.js"]
   },
 
   "action": {
