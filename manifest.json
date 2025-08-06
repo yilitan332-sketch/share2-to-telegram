@@ -13,7 +13,8 @@
 
   "permissions": [
     "tabs",
-    "storage"
+    "storage",
+    "scripting"
   ],
 
   "host_permissions": [
