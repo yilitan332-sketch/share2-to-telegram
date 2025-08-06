@@ -18,17 +18,26 @@ function updateStatus() {
 }
 
 // Function to handle the Authorize button click
-function authorize() {
+async function authorize() {
   console.log("Authorization button clicked.");
-  // Set the flag in storage
-  browser.storage.local.set({ isAuthorized: true }).then(() => {
-    console.log("Authorization status set to true.");
-    // Open the telegram share link for the first time for the user to approve OS-level prompts
-    const dummyUrl = `https://telegram.me/share/url?url=${encodeURIComponent("https://example.com")}`;
-    browser.tabs.create({ url: dummyUrl, active: true });
-    // Update the status on the options page
-    updateStatus();
-  });
+
+  // Get the currently active tab to share a real URL instead of a dummy one.
+  const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+
+  // Use the current tab's URL, or a sensible fallback if no active tab is found.
+  const urlToShare = (tabs[0] && tabs[0].url) ? tabs[0].url : "https://telegram.org/";
+  console.log(`Using URL for authorization: ${urlToShare}`);
+
+  // Set the flag in storage first
+  await browser.storage.local.set({ isAuthorized: true });
+  console.log("Authorization status set to true.");
+
+  // Open the Telegram share link for the first time for the user to approve OS-level prompts
+  const authShareLink = `https://telegram.me/share/url?url=${encodeURIComponent(urlToShare)}`;
+  await browser.tabs.create({ url: authShareLink, active: true });
+
+  // Update the status on the options page
+  updateStatus();
 }
 
 // Function to handle the Reset button click
