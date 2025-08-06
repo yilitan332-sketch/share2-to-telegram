@@ -7,54 +7,62 @@
     body {
       font-family: sans-serif;
       padding: 1em;
-      width: 350px;
+      width: 400px;
     }
     .setting {
       margin-bottom: 1.5em;
+      padding: 1em;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
     h1 {
       font-size: 1.2em;
+      margin-top: 0;
     }
     p {
-      margin: 0;
+      margin: 0.5em 0;
     }
     #status {
       font-weight: bold;
-      color: #00529B; /* A blue color */
     }
     button {
       padding: 8px 12px;
       border: 1px solid #ccc;
       background-color: #f0f0f0;
       cursor: pointer;
+      margin-right: 10px;
     }
     button:hover {
       background-color: #e0e0e0;
     }
-    .future-section {
-      border-top: 1px solid #ccc;
-      padding-top: 1em;
-      margin-top: 2em;
-      color: #777;
+    #authorize-section p {
+        font-size: 0.9em;
+    }
+    #authorize-btn {
+        background-color: #2a8a2a;
+        color: white;
+        border: none;
+    }
+    #authorize-btn:hover {
+        background-color: #247524;
     }
   </style>
 </head>
 <body>
   <h1>Share to Telegram Settings</h1>
 
-  <div class="setting">
-    <p>Current Authorization Status:</p>
-    <p id="status">Loading...</p>
+  <div id="authorize-section" class="setting">
+    <h2>One-Time Setup</h2>
+    <p>To use this extension, you must first authorize it to open links with your Telegram Desktop app. Please ensure Telegram is installed on your computer.</p>
+    <p>Click the "Authorize" button below. This will open a Telegram sharing tab. Please accept any prompts from your browser or Telegram to complete the setup. You may close the Telegram tab once you are done.</p>
+    <button id="authorize-btn">Authorize</button>
   </div>
 
   <div class="setting">
-    <p>If the extension stops working, you can reset its authorization state.</p>
+    <h2>Configuration</h2>
+    <p>Current Status: <span id="status">Loading...</span></p>
+    <p>If the extension stops working, you can reset it here. This will require you to go through the authorization step again.</p>
     <button id="reset-auth">Reset Authorization</button>
-  </div>
-
-  <!-- This is a placeholder for any future settings that might be added. -->
-  <div class="future-section">
-    <p>Future settings will appear here.</p>
   </div>
 
   <script src="options.js"></script>
