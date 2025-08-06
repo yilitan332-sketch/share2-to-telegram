@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Share to Telegram Options</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 1em;
+      width: 350px;
+    }
+    .setting {
+      margin-bottom: 1.5em;
+    }
+    h1 {
+      font-size: 1.2em;
+    }
+    p {
+      margin: 0;
+    }
+    #status {
+      font-weight: bold;
+      color: #00529B; /* A blue color */
+    }
+    button {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      background-color: #f0f0f0;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #e0e0e0;
+    }
+    .future-section {
+      border-top: 1px solid #ccc;
+      padding-top: 1em;
+      margin-top: 2em;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <h1>Share to Telegram Settings</h1>
+
+  <div class="setting">
+    <p>Current Authorization Status:</p>
+    <p id="status">Loading...</p>
+  </div>
+
+  <div class="setting">
+    <p>If the extension stops working, you can reset its authorization state.</p>
+    <button id="reset-auth">Reset Authorization</button>
+  </div>
+
+  <!-- This is a placeholder for any future settings that might be added. -->
+  <div class="future-section">
+    <p>Future settings will appear here.</p>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
